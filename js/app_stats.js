@@ -1217,6 +1217,16 @@ historian.appstats.initialize = function(stats) {
   // Convert appStats to a map with app.uid as key.
   var appStats = {};
   var appOptions = [];
+   if (!stats || stats.length < 1 ) {
+      console.log("null data");
+       return;
+   }
+   else
+   {
+    console.log("have data");
+   }
+
+
   for (var i = 0; i < stats.length; i++) {
     // Parsed apps all have UIDs.
     var uid = /** @type {number} */(stats[i].RawStats.uid);

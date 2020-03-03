@@ -638,8 +638,15 @@ historian.tables.jumpToSelector = function(pane, selector) {
     // '*' denotes jumping to the top of the pane.
     top = 0;
   } else {
-    top = $(pane.container).find(selector).first().position().top -
+    if($(pane.container) && $(pane.container).find(selector) && $(pane.container).find(selector).first() && $(pane.container).find(selector).first().position())
+    {
+      top = $(pane.container).find(selector).first().position().top -
         historian.tables.JUMP_OFFSET;
+    }
+    else
+    {
+	    top = 0;
+    }
   }
   $(historian.tables.CONTAINER_SELECTOR).scrollTop(top);
 };
@@ -721,7 +728,9 @@ historian.tables.toggleTable = function(table) {
                       historian.tables.FAST_ANIMATE_TIME :
                       historian.tables.ANIMATE_TIME);
     table.addClass('summary-title-highlight');
-    node.listItem.addClass('list-item-active');
+
+    if(node.listItem)
+       node.listItem.addClass('list-item-active');
   } else {
     table.children('.glyphicon')
         .addClass('glyphicon-plus')
@@ -730,7 +739,8 @@ historian.tables.toggleTable = function(table) {
                     historian.tables.FAST_ANIMATE_TIME :
                     historian.tables.ANIMATE_TIME);
     table.removeClass('summary-title-highlight');
-    node.listItem.removeClass('list-item-active');
+   if(node.listItem)
+     node.listItem.removeClass('list-item-active');
   }
 };
 

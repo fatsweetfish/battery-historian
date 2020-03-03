@@ -1602,7 +1602,7 @@ historian.Bars.prototype.createSortedTable_ = function(series, cluster) {
       // Some entries might not have a UID, so check per entry.
       var entryHasUid = entry.hasOwnProperty('uid');
       row.push(entryHasUid ? entry.uid : '');
-      if (showProcess) {
+      if (showProcess && historian.appstats.appStats) {
         var name = entryHasUid && entry.uid in historian.appstats.appStats ?
             historian.appstats.appStats[entry.uid].RawStats.name : '';
         row.push(name);
@@ -1720,8 +1720,15 @@ historian.Bars.prototype.createBroadcastsTable_ = function(series, cluster) {
       tblRow[correspondingCol] = formatBroadcastTimes(entry);
     }
     tblRow.push(originalEntry.uid != null ? originalEntry.uid : '');
-    tblRow.push(originalEntry.uid in historian.appstats.appStats ?
+    if(historian.appstats.appStats)
+    {
+       tblRow.push(originalEntry.uid in historian.appstats.appStats ?
         historian.appstats.appStats[originalEntry.uid].RawStats.name : '');
+    }
+    else
+   {
+	    tblRow.push('');
+	  }
     return tblRow;
   }, this);
   return {header: headRow, body: bodyRows};
