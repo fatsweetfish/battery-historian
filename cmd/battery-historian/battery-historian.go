@@ -19,6 +19,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"path"
 
@@ -112,6 +113,25 @@ func initFrontend() {
 	}
 }
 
+
+//Jane add 2020-02-24
+type tcpKeepAliveListener struct {
+	*net.TCPListener
+}
+
+func ListenAndServe(addr string, handler http.Handler) error {
+	srv := &http.Server{Addr: addr, Handler: handler}
+	addr = srv.Addr
+	if addr == "" {
+		addr = ":http"
+	}
+	ln, err := net.Listen("tcp4", addr) // 仅指定 IPv4
+	if err != nil {
+		return err
+	}
+	return srv.Serve(tcpKeepAliveListener{ln.(*net.TCPListener)})
+}
+
 func main() {
 	flag.Parse()
 
@@ -122,4 +142,5 @@ func main() {
 	analyzer.SetIsOptimized(*optimized)
 	log.Println("Listening on port: ", *port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), nil))
+       //log.Fatal(ListenAndServe(fmt.Sprintf(":%d", *port), nil))
 }
