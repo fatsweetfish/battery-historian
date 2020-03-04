@@ -1433,7 +1433,7 @@ def main():
 
   if not getopt_generate_chart_only:
     print """
-      <script src="https://libs.cdnjs.net/jquery/1.11.1/jquery.min.js"></script>
+      <script src="https://ajax.loli.net/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
       <script type="text/javascript" src="https://www.google.cn/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['timeline']}]}"></script>
     """
 
