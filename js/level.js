@@ -617,7 +617,7 @@ historian.LevelLine.prototype.renderLegend_ = function() {
   if (!this.config_.name) {  // An empty name means no line is displayed.
     return;
   }
-  var s = context.svg.node().getBoundingClientRect();
+ // var s = context.svg.node().getBoundingClientRect();
   var maxHeight = context.svgSize[historian.constants.HEIGHT];
   // Only space available is between the axis and the end of the svg.
   var maxWidth = context.svgSize[historian.constants.WIDTH] -
@@ -663,6 +663,15 @@ historian.LevelLine.prototype.renderLegend_ = function() {
         .attr('transform', 'rotate(90 ' + startX + ',' + textCoordY + ')')
         .text(text);
 
+    if(legend.node())
+    {  
+	    console.log("node is not null");
+    }
+    else
+    {
+	    console.log("node is null");
+	    return;
+    }
     var legendSize = legend.node().getBoundingClientRect();
     if (legendSize.height >= maxHeight) {
       // The text is so long that it can't fit. There's currently nothing that
@@ -712,11 +721,21 @@ historian.LevelLine.prototype.renderLegend_ = function() {
     // look a little weird.
     // Since the y coordinate refers to the top edge position, we need to
     // subtract half the container height to position it at the center of the
-    // svg.
+    // svg
+    if(context.svg.node() && container.node())
+    {
+    var s = context.svg.node().getBoundingClientRect();
     var containerSize = container.node().getBoundingClientRect();
     var translateY = goog.string.subs('translate(0,%s)',
         (s.height - containerSize.height) / 2);
     container.attr('transform', translateY);
+    }
+    else
+     {
+	 console.log("context.svg.node() or container.node() is null");
+
+     }
+	  
   }
   container.style('visibility', 'visible');
 };
